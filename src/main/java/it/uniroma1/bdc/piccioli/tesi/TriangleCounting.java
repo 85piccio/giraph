@@ -73,13 +73,14 @@ public class TriangleCounting extends BasicComputation<Text, Text, NullWritable,
 
             }
 
-            T = T / 6;
+            T = T / 6;            
+            
+            //send aggragate value
+            aggregate(SOMMA, new DoubleWritable(T));
+            
             vertex.setValue(new Text(T.toString()));
             vertex.voteToHalt();
-
-            aggregate(SOMMA, new DoubleWritable(T));
-//            getAggregatedValue(SOMMA);
-//            System.out.println("DEBUG "+ getAggregatedValue(SOMMA));
+            
 
         }
 

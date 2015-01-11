@@ -15,9 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package it.uniroma1.bdc.piccioli.tesi;
-
 
 import java.io.IOException;
 import java.util.Map.Entry;
@@ -31,55 +29,57 @@ import org.apache.hadoop.mapreduce.Mapper.Context;
 import org.apache.log4j.Logger;
 
 /**
- * This is a simple example for an aggregator writer. After each superstep
- * the writer will persist the aggregator values to disk, by use of the
- * Writable interface. The file will be created on the current working
- * directory.
+ * This is a simple example for an aggregator writer. After each superstep the writer will persist the aggregator values to disk, by use of the Writable interface. The file will be created on the current working directory.
  */
 public class SimpleAggregatorWriter extends
-    DefaultImmutableClassesGiraphConfigurable implements
-    AggregatorWriter {
-  /** Name of the file we wrote to */
-  private static String FILENAME;
-  /** Saved output stream to write to */
-  private FSDataOutputStream output;
+        DefaultImmutableClassesGiraphConfigurable implements
+        AggregatorWriter {
 
-  public static String getFilename() {
-    return FILENAME;
-  }
+    /**
+     * Name of the file we wrote to
+     */
+    private static String FILENAME;
+    /**
+     * Saved output stream to write to
+     */
+    private FSDataOutputStream output;
 
-  @SuppressWarnings("rawtypes")
-  @Override
-  public void initialize(Context context, long applicationAttempt)
-    throws IOException {
-    setFilename(applicationAttempt);
-    Path p = new Path(FILENAME);
-    FileSystem fs = FileSystem.get(context.getConfiguration());
-    output = fs.create(p, true);
-  }
-
-  /**
-   * Set filename written to
-   *
-   * @param applicationAttempt app attempt
-   */
-  private static void setFilename(long applicationAttempt) {
-    FILENAME = "aggregatedValues_" + applicationAttempt;
-  }
-
-  @Override
-  public void writeAggregator(
-      Iterable<Entry<String, Writable>> aggregatorMap,
-      long superstep) throws IOException {
-    for (Entry<String, Writable> entry : aggregatorMap) {
-      entry.getValue().write(output); 
-      Logger.getLogger(this.getClass()).info(entry.getValue().toString());
+    public static String getFilename() {
+        return FILENAME;
     }
-    output.flush();
-  }
 
-  @Override
-  public void close() throws IOException {
-    output.close();
-  }
+    @SuppressWarnings("rawtypes")
+    @Override
+    public void initialize(Context context, long applicationAttempt)
+            throws IOException {
+        setFilename(applicationAttempt);
+        Path p = new Path(FILENAME);
+        FileSystem fs = FileSystem.get(context.getConfiguration());
+        output = fs.create(p, true);
+    }
+
+    /**
+     * Set filename written to
+     *
+     * @param applicationAttempt app attempt
+     */
+    private static void setFilename(long applicationAttempt) {
+        FILENAME = "aggregatedValues_" + applicationAttempt;
+    }
+
+    @Override
+    public void writeAggregator(
+            Iterable<Entry<String, Writable>> aggregatorMap,
+            long superstep) throws IOException {
+        for (Entry<String, Writable> entry : aggregatorMap) {
+            output.writeChars(entry.getKey().toString() + "\t" + entry.getValue().toString() + "\n");
+//          entry.getValue().write(output); 
+        }
+        output.flush();
+    }
+
+    @Override
+    public void close() throws IOException {
+        output.close();
+    }
 }
