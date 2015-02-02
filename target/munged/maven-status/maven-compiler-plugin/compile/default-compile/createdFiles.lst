@@ -9,7 +9,6 @@ org/apache/giraph/examples/SimplePageRankComputation$SimplePageRankVertexInputFo
 org/apache/giraph/examples/SimpleCheckpoint$SimpleCheckpointVertexWorkerContext.class
 org/apache/giraph/examples/LongDoubleFloatTextInputFormat$LongDoubleFloatVertexReader.class
 org/apache/giraph/examples/SimpleTriangleClosingComputation.class
-it/uniroma1/bdc/piccioli/tesi/SimpleInDegreeCountComputation.class
 org/apache/giraph/examples/SimpleMutateGraphComputation.class
 org/apache/giraph/examples/VerifyMessage$VerifyMessageComputation$VerifyMessageVertexWorkerContext.class
 org/apache/giraph/examples/scc/SccVertexValue.class
@@ -90,6 +89,7 @@ org/apache/giraph/examples/LongDoubleNullTextInputFormat.class
 org/apache/giraph/examples/SimpleInDegreeCountComputation.class
 org/apache/giraph/examples/SimpleVertexWithWorkerContext.class
 it/uniroma1/bdc/piccioli/tesi/SimpleAggregatorWriter.class
+it/uniroma1/bdc/piccioli/tesi/SimpleDegreeCountComputation.class
 org/apache/giraph/examples/SimpleOutDegreeCountComputation.class
 org/apache/giraph/examples/SimplePageRankComputation.class
 org/apache/giraph/examples/scc/SccComputation.class
